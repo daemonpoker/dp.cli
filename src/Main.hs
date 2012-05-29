@@ -2,6 +2,7 @@ module Main where
 
 import Data.List (sort, group, nub)
 import Control.Arrow ((&&&))
+import qualified Data.Vector as V
 
 import Hand
 
@@ -10,11 +11,15 @@ data MajorRank = MHighCard | MPair | MTwoPair | MThreeOfAKind | MFullHouse | MFo
 main :: IO ()
 main = do
   putStrLn "Daemon Poker Lab"
-  print $ rank [Daemon, Daemon, Daemon, Daemon, Daemon]
-  print rankCount
-  print $ length . nub . map rank $ combinaisonsOfAll 5
-  print $ probability (rank [One, Two, Two, Three, Bishop])
+  -- print $ rank [Daemon, Daemon, Daemon, Daemon, Daemon]
+  -- print rankCount
+  print $ V.take 10 checkToIndex 
 
+
+checkToIndex :: V.Vector Rank
+checkToIndex =
+    let rs = V.fromList $ map (head) . group . sort . map rank $ combinaisonsOfAll 5
+    in V.ifilter (\i r -> i /= toIndex r) rs
 
 
 
