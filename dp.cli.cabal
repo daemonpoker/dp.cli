@@ -1,0 +1,11 @@
+Name:		dpcli
+Version:	0.1
+Description:	Daemon Poker command line interface 
+Author:	  Daemon <d@daemonpoker.com>	
+Build-Type:	Simple
+Cabal-Version:	>= 1.3
+Executable dp
+  hs-source-dirs: src
+  Main-is:		Main.hs
+  Build-Depends:	base
+  GHC-Options: -O2 -Wall
