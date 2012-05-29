@@ -34,16 +34,64 @@ probability h =
 
 toIndex :: Rank -> Int
 toIndex (HighCard x y z t u) =
-  comb (fromEnum x - 1) 4
-  + comb (fromEnum y - 2) 3
-  + comb (fromEnum z - 3) 2
-  + comb (fromEnum t - 4) 1
+  sumcomb (fromEnum x - 1) 4
+  + sumcomb (fromEnum y - 1) 3
+  + sumcomb (fromEnum z - 1) 2
+  + sumcomb (fromEnum t - 1) 1
+  + fromEnum u
+
+toIndex (Pair x y z t) =
+  4368
+  + fromEnum x * 455
+  + sumcomb (fromEnum y - diff x y) 3
+  + sumcomb (fromEnum z - diff x z) 2
+  + sumcomb (fromEnum t - diff x t) 1
+    where diff :: Card -> Card -> Int
+          diff a b 
+             | a > b = 1
+             | otherwise = 2
+
+toIndex (TwoPair x y z) =
+  11648
+  + (sumcomb (fromEnum x - 1) 1
+     + (fromEnum y)) * 14
+  + fromEnum z - diff3 x y z
+  where diff3 :: Card -> Card -> Card -> Int
+        diff3 a b c 
+            | c > b = 1
+            | c < b && c > a = 2
+            | otherwise = 3
+
+toIndex (ThreeOfAKind x y z) =
+    13328
+    + fromEnum x * 105
+    + sumcomb (fromEnum y - diff x y) 1
+    + sumcomb (fromEnum z - diff x z) 1
+    where diff :: Card -> Card -> Int
+          diff a b
+            | a > b = 1
+            | otherwise = 2
+
+toIndex (FullHouse x y) =
+    15008
+    + fromEnum x * 16
+    + fromEnum y
+
+toIndex (FourOfAKind x y) =
+    15248
+    + fromEnum x * 16
+    + fromEnum y
+
+toIndex (FiveOfAKind x) =
+    15488 + fromEnum x
+
+
 
 comb :: Int -> Int -> Int
 comb n k = product [n-k+1..n] `div` product [1..k] 
 
 sumcomb :: Int -> Int -> Int
-sumcomb n k = foldr (+) 0 $ map (flip comb k) [1..n-1]
+sumcomb n k = foldr (+) 0 $ map (flip comb k) [1..n]
   
 
 rank :: [Card] -> Rank

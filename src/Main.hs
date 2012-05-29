@@ -16,6 +16,8 @@ main = do
   print $ probability (rank [One, Two, Two, Three, Bishop])
 
 
+
+
 rankCount :: [(Int, MajorRank)]
 rankCount = map (length &&& head) allRanks
   where
