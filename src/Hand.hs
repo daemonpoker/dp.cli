@@ -66,7 +66,7 @@ toIndex (ThreeOfAKind x y z) =
     13328
     + fromEnum x * 105
     + sumcomb (fromEnum y - diff x y) 1
-    + sumcomb (fromEnum z - diff x z) 1
+    + (fromEnum z + 1 - diff x z)
     where diff :: Card -> Card -> Int
           diff a b
             | a > b = 1
@@ -74,13 +74,21 @@ toIndex (ThreeOfAKind x y z) =
 
 toIndex (FullHouse x y) =
     15008
-    + fromEnum x * 16
-    + fromEnum y
+    + fromEnum x * 15
+    + fromEnum y - diff x y
+    where diff :: Card -> Card -> Int
+          diff a b
+            | a > b = 0
+            | otherwise = 1
 
 toIndex (FourOfAKind x y) =
     15248
-    + fromEnum x * 16
-    + fromEnum y
+    + fromEnum x * 15
+    + fromEnum y - diff x y
+    where diff :: Card -> Card -> Int
+          diff a b 
+            | a > b = 0
+            | otherwise = 1
 
 toIndex (FiveOfAKind x) =
     15488 + fromEnum x
