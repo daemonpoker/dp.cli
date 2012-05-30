@@ -43,12 +43,12 @@ toIndex (HighCard x y z t u) =
 toIndex (Pair x y z t) =
   4368
   + fromEnum x * 455
-  + sumcomb (fromEnum y - diff x y) 3
-  + sumcomb (fromEnum z - diff x z) 2
-  + sumcomb (fromEnum t - diff x t) 1
+  + sumcomb (fromEnum y - diff x y) 2
+  + sumcomb (fromEnum z - diff x z) 1
+  + (fromEnum t + 1 - diff x t) 
     where diff :: Card -> Card -> Int
-          diff a b 
-             | a > b = 1
+          diff p c
+             | c < p = 1
              | otherwise = 2
 
 toIndex (TwoPair x y z) =
@@ -58,9 +58,9 @@ toIndex (TwoPair x y z) =
   + fromEnum z - diff3 x y z
   where diff3 :: Card -> Card -> Card -> Int
         diff3 a b c 
-            | c > b = 1
-            | c < b && c > a = 2
-            | otherwise = 3
+            | c < b = 0
+            | c > b && c < a = 1
+            | otherwise = 2
 
 toIndex (ThreeOfAKind x y z) =
     13328
