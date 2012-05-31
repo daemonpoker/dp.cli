@@ -3,9 +3,15 @@ Version:	0.1
 Description:	Daemon Poker command line interface 
 Author:	  Daemon <d@daemonpoker.com>	
 Build-Type:	Simple
-Cabal-Version:	>= 1.3
+Cabal-Version:	>= 1.6
 Executable dp
   hs-source-dirs: src
   Main-is:		Main.hs
   Build-Depends:	base, vector
   GHC-Options: -O2 -Wall
+
+Test-Suite dp-test-suite
+  Type: exitcode-stdio-1.0
+  hs-source-dirs: test, src
+  Main-is: Test.hs
+  Build-Depends: HUnit, test-framework, test-framework-hunit

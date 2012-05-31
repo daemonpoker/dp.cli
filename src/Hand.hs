@@ -1,9 +1,8 @@
-module Hand (Card(..)
+module Hand 
+  ( Card(..)
   , Rank(..)
   , rank
-  , toIndex
-  , combinaisonsOfAll
-  , probability)
+  , toIndex)
 
 where
 
@@ -25,12 +24,12 @@ data Rank =
   deriving (Eq, Show, Ord)
 
 
-probability :: Rank -> Int
-probability h =
-  let allRanks = sort . map (length &&& head) . group . map rank $ combinaisonsOfAll 5
-      belowRanks = filter (\x -> snd x < h) allRanks
-  in
-    foldl (\x y -> x + fst y) 0 belowRanks
+--probability :: Rank -> Int
+--probability h =
+--  let allRanks = sort . map (length &&& head) . group . map rank $ combinaisonsOfAll 5
+--      belowRanks = filter (\x -> snd x < h) allRanks
+--  in
+--    foldl (\x y -> x + fst y) 0 belowRanks
 
 toIndex :: Rank -> Int
 toIndex (HighCard x y z t u) =
@@ -115,13 +114,4 @@ rank h =
     [(1, x), (1, y), (1, z), (2, t)] -> Pair t z y x
     [(1, x), (1, y), (1, z), (1, t), (1, u)] -> HighCard u t z y x
     _ -> error $ "not a hand: " ++ show h
-
-
-combinaisonsOf :: Int -> [a] -> [[a]]
-combinaisonsOf 0 _ = [[]]
-combinaisonsOf n l = [x:y | x <- l, y <- combinaisonsOf (n - 1) l]
-
-combinaisonsOfAll :: (Bounded a, Enum a) => Int -> [[a]]
-combinaisonsOfAll n =
-  combinaisonsOf n (enumFromTo minBound maxBound)
 
