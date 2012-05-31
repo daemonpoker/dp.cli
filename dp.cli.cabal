@@ -8,6 +8,8 @@ Executable dp
   hs-source-dirs: src
   Main-is:		Main.hs
   Build-Depends:	base
+                  , HUnit, test-framework, test-framework-hunit
+
   GHC-Options: -O2 -Wall
 
 Test-Suite dp-test-suite
